@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analyzer Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+
+    <div class="main-container">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1>Professional Resume Analysis</h1>
+                <p>Get comprehensive insights into your resume with our advanced AI-powered analysis tool</p>
+            </div>
+        </div>
+
+        <div class="upload-card">
+            <div class="card-header">
+                <i class="fas fa-upload"></i>
+                <h2>Upload Your Resume</h2>
+                <p>Supported formats: PDF, DOCX (Max 16MB)</p>
+            </div>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="fileInput" name="file" accept=".pdf,.docx" required>
+                    <div class="upload-content">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>Drag & Drop your resume here</h3>
+                        <p>or <span class="browse-text">browse files</span></p>
+                    </div>
+                </div>
+                <button type="submit" class="analyze-btn" disabled>
+                    <i class="fas fa-analytics"></i>
+                    <span>Analyze Resume</span>
+                </button>
+            </form>
+        </div>
+
+        <div id="loading" class="loading-overlay hidden">
+            <div class="loading-content">
+                <div class="loading-spinner">
+                    <div class="spinner-ring"></div>
+                    <div class="spinner-ring"></div>
+                    <div class="spinner-ring"></div>
+                </div>
+                <h3>Analyzing Your Resume</h3>
+                <p>Please wait while we process your document...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="results" class="results-container hidden">
+            <div class="results-header">
+                <h2><i class="fas fa-chart-bar"></i> Analysis Results</h2>
+                <div class="export-buttons">
+                    <button onclick="exportToPDF()" class="export-btn primary">
+                        <i class="fas fa-file-pdf"></i> Export Report
+                    </button>
+                    <button onclick="exportToJSON()" class="export-btn secondary">
+                        <i class="fas fa-download"></i> Export Data
+                    </button>
+                </div>
+            </div>
+            
+            <div class="tabs-container">
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="showTab('summary')">
+                        <i class="fas fa-tachometer-alt"></i> Summary
+                    </button>
+                    <button class="tab-btn" onclick="showTab('skills')">
+                        <i class="fas fa-cogs"></i> Skills
+                    </button>
+                    <button class="tab-btn" onclick="showTab('education')">
+                        <i class="fas fa-graduation-cap"></i> Education
+                    </button>
+                    <button class="tab-btn" onclick="showTab('report')">
+                        <i class="fas fa-file-alt"></i> Full Report
+                    </button>
+                </div>
+            </div>
+
+            <div id="summary" class="tab-content active">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="metric-info">
+                            <h3>Experience</h3>
+                            <p id="experience" class="metric-value">-</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-file-word"></i>
+                        </div>
+                        <div class="metric-info">
+                            <h3>Word Count</h3>
+                            <p id="wordCount" class="metric-value">-</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="metric-info">
+                            <h3>Email</h3>
+                            <p id="email" class="metric-value">-</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="metric-info">
+                            <h3>Phone</h3>
+                            <p id="phone" class="metric-value">-</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="skills" class="tab-content">
+                <div id="skillsContent"></div>
+            </div>
+
+            <div id="education" class="tab-content">
+                <div id="educationContent"></div>
+            </div>
+
+
+
+            <div id="report" class="tab-content">
+                <pre id="fullReport" class="report-text"></pre>
+            </div>
+        </div>
+
+        <div id="error" class="error hidden"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='export.js') }}"></script>
+</body>
+</html>
